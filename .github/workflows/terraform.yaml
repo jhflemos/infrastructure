@@ -58,7 +58,7 @@ jobs:
 
       - name: "build:terramate-generate"
         run: |
-          cd ./aws/vendor/modules/terraform-modules/infrastructure
+          cd ../aws/env/$ENVIRONMENT/
           terramate generate 
        
       - name: "build:terraform-format"
