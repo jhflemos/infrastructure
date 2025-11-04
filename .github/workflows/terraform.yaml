@@ -59,7 +59,7 @@ jobs:
           terraform -chdir=./aws/env/$ENVIRONMENT fmt -check
 
       - name: Terraform Init
-        run: terraform -chdir=./aws/env/$ENVIRONMENT init
+        run: terraform -chdir=./aws/env/$ENVIRONMENT init -reconfigure
 
       - name: Terraform Plan
         run: terraform -chdir=./aws/env/$ENVIRONMENT plan -out=tfplan
