@@ -6,7 +6,7 @@ generate_hcl "_auto_generated_app.simple-http-app.tf" {
      app_name = "simple-http-app"
     }
 
-    module "vpc" {
+    module "simple-http-app" {
       source = "../../vendor/modules/terraform-modules/applications/simple-http-app"
 
       app_name = local.app_name
