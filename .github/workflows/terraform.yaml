@@ -48,7 +48,7 @@ jobs:
        
       - name: Terraform Format
         run: |
-          terraform fmt -check
+          terraform -chdir=aws/env/${{github.ref_name}} fmt -check
 
       ## Step 5: Terraform Init
       #- name: Terraform Init
