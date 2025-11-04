@@ -57,19 +57,13 @@ jobs:
       - name: Terraform Format
         run: |
           terraform -chdir=./aws/env/$ENVIRONMENT fmt -check
-      
-      - name: List Terraform files
-        run: cat ./aws/env/$ENVIRONMENT/_auto_generated_ecr.tf
 
+      - name: Terraform Init
+        run: terraform -chdir=./aws/env/$ENVIRONMENT init
 
-      ## Step 5: Terraform Init
-      #- name: Terraform Init
-      #  run: terraform init
-#
-      ## Step 6: Terraform Plan
-      #- name: Terraform Plan
-      #  run: terraform plan -out=tfplan
-#
+      - name: Terraform Plan
+        run: terraform -chdir=./aws/env/$ENVIRONMENT plan -out=tfplan
+
       ## Optional Step 7: Comment plan on PR
       #- name: Terraform Plan Comment
       #  if: github.event_name == 'pull_request'
