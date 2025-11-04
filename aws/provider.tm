@@ -1,7 +1,7 @@
 generate_hcl "_auto_generated_provider.tf" {
   content {
     provider "aws" {
-      region = var.aws_region
+      region = global.region
 
       default_tags {
         tags = {
