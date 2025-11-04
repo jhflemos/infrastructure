@@ -1,6 +1,6 @@
 
 module "vpc" {
-  source = "../../modules/infrastructure/vpc"
+  source = "./modules/infrastructure/vpc"
 
   aws_region  = var.aws_region
   environment = var.environment

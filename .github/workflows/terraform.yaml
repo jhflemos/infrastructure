@@ -1,4 +1,4 @@
-name: Terraform CI/CD
+name: Terraform Plan & Apply
 
 on:
   push:
@@ -10,7 +10,7 @@ on:
 
 jobs:
   terraform:
-    name: Terraform Workflow
+    name: Terraform Plan & Apply
     runs-on: ubuntu-latest
 
     permissions:
