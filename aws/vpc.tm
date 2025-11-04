@@ -21,6 +21,7 @@ generate_hcl "_auto_generated_vpc.tf" {
       ]
 
       tags = {
+        TF_Module   = "terraform-modules/infrastructure/vpc"
         Name        = "${global.environment}-vpc"
         Environment = global.environment
       }

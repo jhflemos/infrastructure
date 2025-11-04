@@ -56,9 +56,14 @@ jobs:
           cd ./aws
           terrafile -f terrafile
 
-      - name: "build:terramate-generate"
+      - name: "build:terramate-generate-infrastructure"
         run: |
           cd ./aws/env/$ENVIRONMENT
+          terramate generate 
+
+      - name: "build:terramate-generate-application"
+        run: |
+          cd ./aws/vendor/modules/terraform-modules/applications
           terramate generate 
        
       - name: "build:terraform-format"
