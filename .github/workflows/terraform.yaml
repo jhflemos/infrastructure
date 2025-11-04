@@ -21,6 +21,14 @@ jobs:
       # Step 1: Checkout repo
       - name: Checkout code
         uses: actions/checkout@v4
+      
+      - name: Set environment
+        run: |
+          if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
+            echo "ENVIRONMENT=prod" >> $GITHUB_ENV
+          else
+            echo "ENVIRONMENT=dev" >> $GITHUB_ENV
+          fi
 
       # Step 2: Configure AWS credentials via OIDC
       - name: Configure AWS credentials
@@ -48,7 +56,7 @@ jobs:
        
       - name: Terraform Format
         run: |
-          terraform -chdir=aws/env/${{github.ref_name}} fmt -check
+          terraform -chdir=./aws/env/$ENVIRONMENT fmt -check
 
       ## Step 5: Terraform Init
       #- name: Terraform Init
