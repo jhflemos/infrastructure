@@ -56,8 +56,9 @@ jobs:
       
       - name: Terrafile Import
         run: |
-          terrafile -f ./aws/terrafile -p ./vendor/modules
-
+          cd ./aws
+          terrafile -f terrafile
+          
       - name: Terramate Generate
         run: |
           terramate generate
