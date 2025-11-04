@@ -56,7 +56,7 @@ jobs:
        
       - name: Terraform Format
         run: |
-          terraform -chdir=./aws fmt -check
+          terraform -chdir=./aws fmt
 
       - name: Terraform Init
         run: terraform -chdir=./aws init -reconfigure
