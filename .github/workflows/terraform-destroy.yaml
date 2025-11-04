@@ -1,0 +1,54 @@
+name: Terraform Destroy
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment to destroy'
+        required: true
+        default: dev
+        type: choice
+        options:
+          - dev
+          - prod
+
+jobs:
+  destroy:
+    name: Destroy Terraform Resources
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::748026688964:role/GitHubActionsAWSRole
+          aws-region: eu-west-1
+
+      - name: Set Environment variable
+        run: echo "ENVIRONMENT=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+      
+      - name: Install Terramate
+        run: |
+          sudo apt-get update && sudo apt-get install -y wget gnupg lsb-release
+
+          echo "deb [trusted=yes] https://repo.terramate.io/apt/ /" | sudo tee /etc/apt/sources.list.d/terramate.list
+
+          sudo apt-get update
+          sudo apt-get install -y terramate
+      
+      - name: Terramate Generate
+        run: |
+          terramate generate
+
+      - name: Terraform Init
+        run: |
+          terraform -chdir=./aws/env/$ENVIRONMENT init
+
+      - name: Terraform Destroy
+        run: |
+          terraform -chdir=./aws/env/$ENVIRONMENT destroy -auto-approve
