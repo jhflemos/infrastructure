@@ -38,4 +38,4 @@ terraform.rc
 
 *_auto_generated_*
 
-**/vendor/
+*/vendor
