@@ -1,7 +1,7 @@
 generate_hcl "_auto_generated_security_group.tf" {
   content {
     resource "aws_security_group" "alb_sg" {
-      name        = "${var.environment}-alb-sg"
+      name        = "${global.environment}-alb-sg"
       description = "Allow HTTP and HTTPS"
       vpc_id      = module.vpc.vpc_id
 
@@ -29,12 +29,12 @@ generate_hcl "_auto_generated_security_group.tf" {
       }
 
       tags = {
-        Name = "${var.environment}-alb-sg"
+        Name = "${global.environment}-alb-sg"
       }
     }
 
     resource "aws_security_group" "ecs_sg" {
-      name        = "${var.environment}-ecs-sg"
+      name        = "${global.environment}-ecs-sg"
       description = "Allow traffic from ALB"
       vpc_id      = module.vpc.vpc_id
 
@@ -52,7 +52,7 @@ generate_hcl "_auto_generated_security_group.tf" {
         cidr_blocks = ["0.0.0.0/0"]
       }
 
-      tags = { Name = "${var.environment}-ecs-sg" }
+      tags = { Name = "${global.environment}-ecs-sg" }
     }
   }
 }
