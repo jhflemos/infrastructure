@@ -1,0 +1,3 @@
+terraform-modules:
+  source: "git@github.com:jhflemos/terraform-modules.git"
+  version: "main"

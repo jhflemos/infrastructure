@@ -1,3 +1,6 @@
+generate_hcl "_auto_generated_ecr.tf" {
+  content {}
+}
 #resource "aws_ecs_cluster" "ecs_cluster" {
 #  name = "${var.environment}-ecs-cluster"
 #}
