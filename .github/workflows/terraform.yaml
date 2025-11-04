@@ -31,9 +31,7 @@ jobs:
 
       # Step 3: Install Terraform
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.7.6
+        uses: hashicorp/setup-terraform@v3
 
       - name: Install Terramate
         run: |
