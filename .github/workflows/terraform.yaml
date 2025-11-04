@@ -57,6 +57,10 @@ jobs:
       - name: Terraform Format
         run: |
           terraform -chdir=./aws/env/$ENVIRONMENT fmt -check
+      
+      - name: List Terraform files
+        run: cat ./aws/env/$ENVIRONMENT/_auto_generated_ecr.tf
+
 
       ## Step 5: Terraform Init
       #- name: Terraform Init
