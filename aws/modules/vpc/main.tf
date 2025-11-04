@@ -103,7 +103,7 @@ resource "aws_route_table_association" "public_route_table_association" {
 }
 
 resource "aws_route_table" "private_route_tables" {
-  for_each = aws_subnet.public # match NAT Gateway per AZ
+  for_each = aws_subnet.public_subnets # match NAT Gateway per AZ
 
   vpc_id = aws_vpc.main.id
 
