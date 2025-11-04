@@ -52,8 +52,7 @@ jobs:
       
       - name: Install Terrafile
         run: |
-          curl -sSL https://github.com/coretech/terrafile/releases/download/v0.8.0/terrafile_0.8.0_Linux_x86_64.tar.gz \
-            | tar xz -C /usr/local/bin
+          wget -qO- https://github.com/coretech/terrafile/releases/download/v0.8/terrafile_0.8_Linux_x86_64.tar.gz | tar xvz && mv terrafile /usr/local/bin/terrafile
           terrafile --version
       
       - name: Terrafile import
