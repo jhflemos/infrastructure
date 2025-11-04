@@ -14,15 +14,14 @@ jobs:
     runs-on: ubuntu-latest
 
     permissions:
-      id-token: write      # Required for OIDC
+      id-token: write
       contents: read
 
     steps:
-      # Step 1: Checkout repo
-      - name: Checkout code
+      - name: "setup:checkout-code"
         uses: actions/checkout@v4
       
-      - name: Set environment
+      - name: "setup:set-environment"
         run: |
           if [[ "${GITHUB_REF_NAME}" == "main" ]]; then
             echo "ENVIRONMENT=prod" >> $GITHUB_ENV
@@ -30,18 +29,16 @@ jobs:
             echo "ENVIRONMENT=dev" >> $GITHUB_ENV
           fi
 
-      # Step 2: Configure AWS credentials via OIDC
-      - name: Configure AWS credentials
+      - name: "setup:configure-aws-credentials"
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::748026688964:role/GitHubActionsAWSRole
           aws-region: eu-west-1
 
-      # Step 3: Install Terraform
-      - name: Setup Terraform
+      - name: "setup:install-terraform"
         uses: hashicorp/setup-terraform@v3
 
-      - name: Install Terramate
+      - name: "setup:install-terramate"
         run: |
           sudo apt-get update && sudo apt-get install -y wget gnupg lsb-release
 
@@ -50,27 +47,28 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y terramate
       
-      - name: Install Terrafile
+      - name: "setup:install-terrafile"
         run: |
           wget -qO- https://github.com/coretech/terrafile/releases/download/v0.8/terrafile_0.8_Linux_x86_64.tar.gz | tar xvz && mv terrafile /usr/local/bin/terrafile
       
-      - name: Terrafile Import
+      - name: "build:terrafile-import"
         run: |
           cd ./aws
           terrafile -f terrafile
-          
-      - name: Terramate Generate
+
+      - name: "build:terramate-generate"
         run: |
-          terramate generate
+          cd ./aws/vendor/modules/terraform-modules/infrastructure
+          terramate generate 
        
-      - name: Terraform Format
+      - name: "build:terraform-format"
         run: |
           terraform -chdir=./aws fmt
 
-      - name: Terraform Init
+      - name: "build:terraform-init"
         run: terraform -chdir=./aws/env/$ENVIRONMENT/ init 
 
-      - name: Terraform Plan
+      - name: "build:terraform-plan"
         run: terraform -chdir=./aws/env/$ENVIRONMENT/ plan -out=tfplan
 
       ## Optional Step 7: Comment plan on PR
