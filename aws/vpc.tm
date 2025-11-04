@@ -20,7 +20,7 @@ generate_hcl "_auto_generated_vpc.tf" {
       ]
 
       tags = {
-        Environment = var.environment
+        Environment = global.environment
       }
     }
   }
