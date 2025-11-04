@@ -1,0 +1,6 @@
+locals {
+ applications = [
+  "application-1",
+  "application-2"
+ ]
+}

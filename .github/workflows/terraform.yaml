@@ -56,13 +56,13 @@ jobs:
        
       - name: Terraform Format
         run: |
-          terraform -chdir=./aws/env/$ENVIRONMENT fmt -check
+          terraform -chdir=./aws fmt -check
 
       - name: Terraform Init
-        run: terraform -chdir=./aws/env/$ENVIRONMENT init -reconfigure
+        run: terraform -chdir=./aws init -reconfigure
 
       - name: Terraform Plan
-        run: terraform -chdir=./aws/env/$ENVIRONMENT plan -out=tfplan
+        run: terraform -chdir=./aws -var-file=./aws/envs/$ENVIRONMENT.tfvars plan -out=tfplan
 
       ## Optional Step 7: Comment plan on PR
       #- name: Terraform Plan Comment
@@ -75,6 +75,6 @@ jobs:
       #      $(terraform plan -no-color) 
       #      ```
 
-      - name: Terraform Apply
-        if: github.ref_name == 'main' && github.event_name == 'push'
-        run: terraform -chdir=./aws/env/$ENVIRONMENT apply -auto-approve tfplan
+      #- name: Terraform Apply
+      #  if: github.ref_name == 'main' && github.event_name == 'push'
+      #  run: terraform chdir=./aws -var-file=./aws/envs/$ENVIRONMENT.tfvars -auto-approve tfplan
