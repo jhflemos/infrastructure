@@ -59,7 +59,10 @@ jobs:
           terraform -chdir=./aws fmt
 
       - name: Terraform Init
-        run: terraform -chdir=./aws init -reconfigure
+        run: terraform -chdir=./aws init \
+          -backend-config="bucket=study-terraform-state-bucket" \
+          -backend-config="key=aws/env/$ENVIRONMENT/terraform.tfstate" \
+          -backend-config="region=eu-west-1"
 
       - name: Terraform Plan
         run: terraform -chdir=./aws -var-file=./aws/envs/$ENVIRONMENT.tfvars plan -out=tfplan
