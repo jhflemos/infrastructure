@@ -4,6 +4,7 @@ generate_hcl "_auto_generated_vpc.tf" {
     module "vpc" {
       source = "../../vendor/modules/terraform-modules/infrastructure/vpc"
 
+      name        = "${global.environment}-vpc"
       aws_region  = global.region
       environment = global.environment
 
@@ -20,6 +21,7 @@ generate_hcl "_auto_generated_vpc.tf" {
       ]
 
       tags = {
+        Name        = "${global.environment}-vpc"
         Environment = global.environment
       }
     }

@@ -29,7 +29,8 @@ generate_hcl "_auto_generated_security_group.tf" {
       }
 
       tags = {
-        Name = "${global.environment}-alb-sg"
+        Name        = "${global.environment}-alb-sg"
+        Environment = global.environment
       }
     }
 
@@ -52,7 +53,10 @@ generate_hcl "_auto_generated_security_group.tf" {
         cidr_blocks = ["0.0.0.0/0"]
       }
 
-      tags = { Name = "${global.environment}-ecs-sg" }
+      tags = { 
+        Name        = "${global.environment}-ecs-sg" 
+        Environment = global.environment
+      }
     }
   }
 }
