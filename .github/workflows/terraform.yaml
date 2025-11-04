@@ -33,15 +33,19 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Install Terramate
+      - name: Install Terramate via Action
         run: |
-          curl -sSL https://github.com/mineiros-io/terramate/releases/latest/download/terramate_linux_amd64.tar.gz | tar -xz -C /usr/local/bin
-          terramate --version
+          echo "deb [trusted=yes] https://repo.terramate.io/apt/ /" | sudo tee /etc/apt/sources.list.d/terramate.list
 
-      ## Step 4: Terraform fmt (formatting check)
-      #- name: Terraform Format
-      #  run: terraform fmt -check
-#
+          apt update
+          apt install terramate
+
+      # Step 4: Terraform fmt (formatting check)
+      - name: Terraform Format
+        run: |
+          terramate --version
+          #terraform fmt -check
+
       ## Step 5: Terraform Init
       #- name: Terraform Init
       #  run: terraform init
