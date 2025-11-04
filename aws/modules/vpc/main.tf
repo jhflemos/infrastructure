@@ -3,17 +3,23 @@ resource "aws_vpc" "main" {
   enable_dns_support   = true
   enable_dns_hostnames = true
 
-  tags = {
-    Name = "${var.environment}-vpc"
-  }
+  tags = merge(
+    {
+      Name = "${var.environment}-vpc"
+    },
+    var.tags
+  )
 }
 
 resource "aws_internet_gateway" "igw" {
   vpc_id = aws_vpc.main.id
 
-  tags = {
-    Name = "${var.environment}-vpc-igw"
-  }
+  tags = merge(
+    {
+      Name = "${var.environment}-vpc-igw"
+    },
+    var.tags
+  )
 }
 
 resource "aws_subnet" "public_subnets" {
@@ -24,7 +30,12 @@ resource "aws_subnet" "public_subnets" {
   availability_zone       = each.value.availability_zone
   map_public_ip_on_launch = true
 
-  tags = { Name = "${var.environment}-public-${each.key}" }
+  tags = merge(
+    {
+      Name = "${var.environment}-public-${each.key}"
+    },
+    var.tags
+  )
 }
 
 resource "aws_subnet" "private_subnets" {
@@ -35,14 +46,23 @@ resource "aws_subnet" "private_subnets" {
   availability_zone       = each.value.availability_zone
   map_public_ip_on_launch = true
 
-  tags = { Name = "${var.environment}-private-${each.key}" }
+  tags = merge(
+    {
+      Name = "${var.environment}-private-${each.key}"
+    },
+    var.tags
+  )
 }
 
 resource "aws_eip" "nat_elastic_ips" {
   for_each = aws_subnet.public_subnets
 
-  vpc  = true
-  tags = { Name = "${var.environment}-elastic-ip-${each.key}" }
+  tags = merge(
+    {
+      Name = "${var.environment}-elastic-ip-${each.key}"
+    },
+    var.tags
+  )
 }
 
 resource "aws_nat_gateway" "nat_gateways" {
@@ -51,7 +71,12 @@ resource "aws_nat_gateway" "nat_gateways" {
   allocation_id = aws_eip.nat_elastic_ips[each.key].id
   subnet_id     = each.value.id
 
-  tags = { Name = "${var.environment}-nat-gateway-${each.key}" }
+  tags = merge(
+    {
+      Name = "${var.environment}-nat-gateway-${each.key}"
+    },
+    var.tags
+  )
 }
 
 resource "aws_route_table" "public_route_table" {
@@ -62,9 +87,12 @@ resource "aws_route_table" "public_route_table" {
     gateway_id = aws_internet_gateway.igw.id
   }
 
-  tags = {
-    Name = "${var.environment}-public-route-table"
-  }
+  tags = merge(
+    {
+      Name = "${var.environment}-public-route-table"
+    },
+    var.tags
+  )
 }
 
 resource "aws_route_table_association" "public_route_table_association" {
@@ -84,9 +112,12 @@ resource "aws_route_table" "private_route_tables" {
     nat_gateway_id = aws_nat_gateway.nat_gateways[each.key].id
   }
 
-  tags = {
-    Name = "${var.environment}-private-route-table-${each.key}"
-  }
+  tags = merge(
+    {
+      Name = "${var.environment}-private-route-table-${each.key}"
+    },
+    var.tags
+  )
 }
 
 resource "aws_route_table_association" "private_route_table_association" {
@@ -94,59 +125,4 @@ resource "aws_route_table_association" "private_route_table_association" {
 
   subnet_id      = each.value.id
   route_table_id = aws_route_table.private_route_tables[each.key].id
-}
-
-resource "aws_security_group" "alb_sg" {
-  name        = "${var.environment}-alb-sg"
-  description = "Allow HTTP and HTTPS"
-  vpc_id      = aws_vpc.main.id
-
-  ingress {
-    description = "HTTP"
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  ingress {
-    description = "HTTPS"
-    from_port   = 443
-    to_port     = 443
-    protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = {
-    Name = "${var.environment}-alb-sg"
-  }
-}
-
-resource "aws_security_group" "ecs_sg" {
-  name        = "${var.environment}-ecs-sg"
-  description = "Allow traffic from ALB"
-  vpc_id      = aws_vpc.main.id
-
-  ingress {
-    from_port       = 3000
-    to_port         = 3000
-    protocol        = "tcp"
-    security_groups = [aws_security_group.alb_sg.id]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = ["0.0.0.0/0"]
-  }
-
-  tags = { Name = "${var.environment}-ecs-sg" }
 }
