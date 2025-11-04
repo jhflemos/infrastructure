@@ -16,6 +16,11 @@ jobs:
   destroy:
     name: Destroy Terraform Resources
     runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write      # Required for OIDC
+      contents: read
+      
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
