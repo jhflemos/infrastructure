@@ -58,7 +58,7 @@ jobs:
 
       - name: "build:terramate-generate"
         run: |
-          cd ../aws/env/$ENVIRONMENT/
+          cd ./aws/env/$ENVIRONMENT
           terramate generate 
        
       - name: "build:terraform-format"
@@ -66,10 +66,10 @@ jobs:
           terraform -chdir=./aws fmt
 
       - name: "build:terraform-init"
-        run: terraform -chdir=./aws/env/$ENVIRONMENT/ init 
+        run: terraform -chdir=./aws/env/$ENVIRONMENT init 
 
       - name: "build:terraform-plan"
-        run: terraform -chdir=./aws/env/$ENVIRONMENT/ plan -out=tfplan
+        run: terraform -chdir=./aws/env/$ENVIRONMENT plan -out=tfplan
 
       ## Optional Step 7: Comment plan on PR
       #- name: Terraform Plan Comment
