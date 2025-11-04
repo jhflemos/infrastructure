@@ -33,7 +33,7 @@ jobs:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
 
-      - name: Install Terramate via Action
+      - name: Install Terramate
         run: |
           sudo apt-get update && sudo apt-get install -y wget gnupg lsb-release
 
@@ -42,13 +42,13 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y terramate
 
-          terramate --version
-
-      # Step 4: Terraform fmt (formatting check)
-      #- name: Terraform Format
-      #  run: |
-      #    terramate --version
-      #    #terraform fmt -check
+      - name: Terramate Generate
+        run: |
+          terramate generate
+       
+      - name: Terraform Format
+        run: |
+          terraform fmt -check
 
       ## Step 5: Terraform Init
       #- name: Terraform Init
