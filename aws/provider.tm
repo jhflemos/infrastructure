@@ -6,6 +6,7 @@ generate_hcl "_auto_generated_provider.tf" {
       default_tags {
         tags = {
           Terraform-Managed = "true"
+          Environment       = global.environment
         }
       }
     }

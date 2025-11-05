@@ -36,9 +36,8 @@ generate_hcl "_auto_generated_app.simple-http-app.tf" {
       ]
 
       tags = {
-        TF_Module   = "terraform-modules/applications/simple-http-app"
-        Name        = local.app_name
-        Environment = global.environment
+        TF_Module = "terraform-modules/applications/simple-http-app"
+        Name      = local.app_name
       }
     }
   }

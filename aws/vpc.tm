@@ -21,9 +21,8 @@ generate_hcl "_auto_generated_vpc.tf" {
       ]
 
       tags = {
-        TF_Module   = "terraform-modules/functions/vpc"
-        Name        = "${global.environment}-vpc"
-        Environment = global.environment
+        TF_Module = "terraform-modules/functions/vpc"
+        Name      = "${global.environment}-vpc"
       }
     }
   }

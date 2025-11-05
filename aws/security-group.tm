@@ -29,8 +29,7 @@ generate_hcl "_auto_generated_security_group.tf" {
       }
 
       tags = {
-        Name        = "${global.environment}-alb-sg"
-        Environment = global.environment
+        Name = "${global.environment}-alb-sg"
       }
     }
   }

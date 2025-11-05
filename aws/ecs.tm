@@ -4,8 +4,7 @@ generate_hcl "_auto_generated_ecs.tf" {
       name = "${global.environment}-ecs-cluster"
 
       tags = { 
-        Name        = "${global.environment}-ecs-sg" 
-        Environment = global.environment
+        Name = "${global.environment}-ecs-cluster" 
       }
     }
   }
