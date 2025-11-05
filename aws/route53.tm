@@ -7,7 +7,7 @@ generate_hcl "_auto_generated_route53.tf" {
     resource "aws_route53_zone" "main" {
       name = local.domain_name
     }
-    
+
     resource "aws_acm_certificate" "apps" {
       domain_name = "app.${local.domain_name}"
       validation_method = "DNS"
@@ -23,7 +23,7 @@ generate_hcl "_auto_generated_route53.tf" {
 
     resource "aws_acm_certificate_validation" "apps" {
       certificate_arn         = aws_acm_certificate.apps.arn
-      validation_record_fqdns = [aws_route53_record.apps.fqdn]
+      validation_record_fqdns = [aws_route53_record.apps_validation.fqdn]
     }
 
     resource "aws_route53_record" "app_alias" {
