@@ -14,16 +14,28 @@ generate_hcl "_auto_generated_route53.tf" {
     }
 
     resource "aws_route53_record" "apps_validation" {
-      name    = element(aws_acm_certificate.apps.domain_validation_options[*].resource_record_name, 0)
-      type    = element(aws_acm_certificate.apps.domain_validation_options[*].resource_record_type, 0)
-      zone_id = aws_route53_zone.main.zone_id
-      records = [element(aws_acm_certificate.apps.domain_validation_options[*].resource_record_value, 0)]
-      ttl     = 60
+      for_each = {
+        for dvo in aws_acm_certificate.apps.domain_validation_options : dvo.domain_name => {
+          name   = dvo.resource_record_name
+          record = dvo.resource_record_value
+          type   = dvo.resource_record_type
+        }
+      }
+
+      allow_overwrite = true
+      name            = each.value.name
+      records         = [each.value.record]
+      ttl             = 60
+      type            = each.value.type
+      zone_id         = data.aws_route53_zone.main.zone_id
     }
 
     resource "aws_acm_certificate_validation" "apps" {
+      timeouts {
+        create = "5m"
+      }
       certificate_arn         = aws_acm_certificate.apps.arn
-      validation_record_fqdns = [aws_route53_record.apps_validation.fqdn]
+      validation_record_fqdns = [for record in aws_route53_record.apps_validation : record.fqdn]
     }
 
     resource "aws_route53_record" "app_alias" {
