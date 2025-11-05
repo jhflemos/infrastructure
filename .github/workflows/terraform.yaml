@@ -87,6 +87,6 @@ jobs:
       #      $(terraform plan -no-color) 
       #      ```
 
-      #- name: "build:terraform-apply"
-      #  if: github.ref_name == 'main' && github.event_name == 'push'
-      #  run: terraform chdir=./aws/env/$ENVIRONMENT -auto-approve tfplan
+      - name: "build:terraform-apply"
+        if: github.ref_name == 'main' && github.event_name == 'push'
+        run: terraform chdir=./aws/env/$ENVIRONMENT -auto-approve tfplan
