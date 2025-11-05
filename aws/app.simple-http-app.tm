@@ -13,14 +13,12 @@ generate_hcl "_auto_generated_app.simple-http-app.tf" {
 
       environment = global.environment
 
-      alb_arn = aws_lb.app_alb.arn
-      alb_sg  = aws_security_group.alb_sg.id
+      alb_arn   = aws_lb.app_alb.arn
+      alb_sg_id = aws_security_group.alb_sg.id
 
       vpc_id = module.vpc.id
 
       private_subnets = module.vpc.private_subnets
-
-      target_group_arn = aws_lb_target_group.ecs_tg.arn
 
       tags = {
         TF_Module   = "terraform-modules/applications/simple-http-app"
