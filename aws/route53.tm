@@ -28,7 +28,7 @@ generate_hcl "_auto_generated_route53.tf" {
 
     resource "aws_route53_record" "app_alias" {
       zone_id = aws_route53_zone.main.zone_id
-      name    = "app.lemosit.com"
+      name    = "app"
       type    = "A"
 
       alias {
