@@ -20,6 +20,13 @@ generate_hcl "_auto_generated_app.simple-http-app.tf" {
 
       private_subnets = module.vpc.private_subnets
 
+      env_vars = [
+       {
+         name = "environment"
+         value = "${global.environment}"
+        }
+      ]
+
       tags = {
         TF_Module   = "terraform-modules/applications/simple-http-app"
         Name        = local.app_name
