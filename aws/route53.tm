@@ -7,13 +7,7 @@ generate_hcl "_auto_generated_route53.tf" {
     resource "aws_route53_zone" "main" {
       name = local.domain_name
     }
-
-    resource "aws_route53_domain" "domain" {
-      domain_name = local.domain_name
-
-      name_servers = aws_route53_zone.main.name_servers
-    }
-
+    
     resource "aws_acm_certificate" "apps" {
       domain_name = "app.${local.domain_name}"
       validation_method = "DNS"
