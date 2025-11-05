@@ -16,7 +16,7 @@ generate_hcl "_auto_generated_app.simple-http-app.tf" {
       alb_arn   = aws_lb.app_alb.arn
       alb_sg_id = aws_security_group.alb_sg.id
 
-      vpc_id = module.vpc.id
+      vpc_id = module.vpc.vpc_id
 
       private_subnets = module.vpc.private_subnets
 
