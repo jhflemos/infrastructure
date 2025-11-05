@@ -27,6 +27,12 @@ generate_hcl "_auto_generated_app.simple-http-app.tf" {
         }
       ]
 
+      ssm_parameters = [
+       {
+         name = "SECRET_FROM_SSM"
+       }
+      ]
+
       tags = {
         TF_Module   = "terraform-modules/applications/simple-http-app"
         Name        = local.app_name
