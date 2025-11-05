@@ -4,7 +4,8 @@ generate_hcl "_auto_generated_route53.tf" {
      domain_name = "lemosit.com"
     }
     resource "aws_route53_zone" "main" {
-      name = local.domain_name
+      name         = local.domain_name
+      private_zone = false
     }
 
     resource "aws_acm_certificate" "wildcard" {
