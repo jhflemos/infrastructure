@@ -10,7 +10,7 @@ generate_hcl "_auto_generated_route53.tf" {
 
     resource "aws_acm_certificate" "apps" {
       domain_name = "app.${local.domain_name}"
-      subject_alternative_names = ["*.app.${var.domain_name}"]
+      subject_alternative_names = ["*.app.${local.domain_name}"]
       validation_method = "DNS"
 
       lifecycle {
