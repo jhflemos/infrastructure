@@ -89,4 +89,4 @@ jobs:
 
       - name: "build:terraform-apply"
         if: github.ref_name == 'main' && github.event_name == 'push'
-        run: terraform chdir=./aws/env/$ENVIRONMENT apply -auto-approve tfplan
+        run: terraform -chdir=./aws/env/$ENVIRONMENT apply -auto-approve tfplan
