@@ -20,7 +20,7 @@ generate_hcl "_auto_generated_app.simple-http-app.tf" {
 
       private_subnets = module.vpc.private_subnets
 
-      aws_acm_certificate_arn = aws_acm_certificate.wildcard.arn
+      aws_acm_certificate_arn = aws_acm_certificate.apps.arn
 
       env_vars = [
        {
