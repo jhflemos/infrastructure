@@ -14,9 +14,8 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
       environment = global.environment
 
      alb = {
-        alb_arn                 = aws_lb.app_alb.arn
+        listener_arn            = aws_lb_listener.https.arn
         alb_sg_id               = aws_security_group.alb_sg.id
-        aws_acm_certificate_arn = aws_acm_certificate_validation.apps.certificate_arn
         health_check = {
           path                = "/health"
           interval            = 30

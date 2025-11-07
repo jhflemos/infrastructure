@@ -14,9 +14,8 @@ generate_hcl "_auto_generated_app.simple-http-app.tf" {
       environment = global.environment
 
       alb = {
-        alb_arn                 = aws_lb.app_alb.arn
+        listener_arn            = aws_lb_listener.https.arn
         alb_sg_id               = aws_security_group.alb_sg.id
-        aws_acm_certificate_arn = aws_acm_certificate_validation.apps.certificate_arn
         health_check = {
           path                = "/"
           interval            = 30
@@ -24,6 +23,15 @@ generate_hcl "_auto_generated_app.simple-http-app.tf" {
           healthy_threshold   = 2
           unhealthy_threshold = 2
           matcher             = "200-399"
+        }
+        listener = {
+          condition = [
+            {
+              path_pattern = {
+                values = ["/"]
+              }
+            }
+          ]
         }
       }
 
