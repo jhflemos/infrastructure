@@ -1,29 +1,37 @@
 
-generate_hcl "_auto_generated_app.simple-http-app.tf" {
+generate_hcl "_auto_generated_app.simple-api-app.tf" {
   content {
 
     locals {
-     app_name = "simple-http-app"
+     app_name = "simple-api-app"
     }
 
-    module "simple-http-app" {
-      source = "../../vendor/modules/terraform-modules/applications/simple-http-app"
+    module "simple-api-app" {
+      source = "../../vendor/modules/terraform-modules/applications/simple-api-app"
 
       app_name = local.app_name
 
       environment = global.environment
 
-      alb = {
+     alb = {
         alb_arn                 = aws_lb.app_alb.arn
         alb_sg_id               = aws_security_group.alb_sg.id
         aws_acm_certificate_arn = aws_acm_certificate_validation.apps.certificate_arn
         health_check = {
-          path                = "/"
+          path                = "/health"
           interval            = 30
           timeout             = 5
           healthy_threshold   = 2
           unhealthy_threshold = 2
-          matcher             = "200-399"
+        }
+        listener = {
+          condition = [
+            {
+              path_pattern = {
+                values = ["/api/*"]
+              }
+            }
+          ]
         }
       }
 
@@ -45,7 +53,7 @@ generate_hcl "_auto_generated_app.simple-http-app.tf" {
       ]
 
       tags = {
-        TF_Module = "terraform-modules/applications/simple-http-app"
+        TF_Module = "terraform-modules/applications/simple-api-app"
         Name      = local.app_name
       }
     }
