@@ -68,6 +68,9 @@ jobs:
       - name: Terraform Init
         run: |
           terraform -chdir=./aws/env/$ENVIRONMENT init
+      
+      - name: "build:terraform-plan"
+        run: terraform -chdir=./aws/env/$ENVIRONMENT plan -out=tfplan
 
       - name: Terraform Destroy
         run: |
