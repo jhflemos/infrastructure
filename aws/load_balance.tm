@@ -1,4 +1,4 @@
-generate_hcl "_auto_generated_alb.tf" {
+generate_hcl "_auto_generated_load_balance.tf" {
   content {
     resource "aws_lb" "app_alb" {
       name               = "${global.environment}-app-alb"
