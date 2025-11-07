@@ -23,6 +23,7 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
           timeout             = 5
           healthy_threshold   = 2
           unhealthy_threshold = 2
+          matcher             = "200-399"
         }
         listener = {
           condition = [
