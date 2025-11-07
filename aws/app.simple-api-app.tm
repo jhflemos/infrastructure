@@ -13,7 +13,7 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
 
       environment = global.environment
 
-     alb = {
+      alb = {
         listener_arn            = aws_lb_listener.https.arn
         alb_sg_id               = aws_security_group.alb_sg.id
         health_check = {
