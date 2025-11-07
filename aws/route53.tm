@@ -6,6 +6,10 @@ generate_hcl "_auto_generated_route53.tf" {
 
     resource "aws_route53_zone" "main" {
       name = local.domain_name
+
+      lifecycle {
+        prevent_destroy = true
+      }
     }
 
     resource "aws_acm_certificate" "apps" {
@@ -14,7 +18,7 @@ generate_hcl "_auto_generated_route53.tf" {
       validation_method = "DNS"
 
       lifecycle {
-        create_before_destroy = true
+        prevent_destroy = true
       }
     }
 
@@ -33,6 +37,10 @@ generate_hcl "_auto_generated_route53.tf" {
       ttl             = 60
       type            = each.value.type
       zone_id         = aws_route53_zone.main.zone_id
+
+      lifecycle {
+        prevent_destroy = true
+      }
     }
 
     resource "aws_acm_certificate_validation" "apps" {
@@ -41,6 +49,10 @@ generate_hcl "_auto_generated_route53.tf" {
       }
       certificate_arn         = aws_acm_certificate.apps.arn
       validation_record_fqdns = [for record in aws_route53_record.apps_validation : record.fqdn]
+
+      lifecycle {
+        prevent_destroy = true
+      }
     }
 
     resource "aws_route53_record" "app_alias" {
@@ -52,6 +64,10 @@ generate_hcl "_auto_generated_route53.tf" {
         name                   = aws_lb.app_alb.dns_name
         zone_id                = aws_lb.app_alb.zone_id
         evaluate_target_health = true
+      }
+
+      lifecycle {
+        prevent_destroy = true
       }
     }
 
