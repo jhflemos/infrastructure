@@ -26,6 +26,10 @@ generate_hcl "_auto_generated_alb.tf" {
           status_code = 404
         }
       }
+
+      tags = {
+        Name = "${global.environment}-lb-listener-https"
+      }
     }
 
     resource "aws_lb_listener" "http" {
@@ -44,8 +48,7 @@ generate_hcl "_auto_generated_alb.tf" {
       }
 
       tags = {
-        Name        = "${var.app_name}-${var.environment}-lb-listener-http"
-        Application = var.app_name
+        Name = "${global.environment}-lb-listener-http"
       }
     }
   }
