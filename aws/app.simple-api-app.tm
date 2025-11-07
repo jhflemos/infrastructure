@@ -17,7 +17,7 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
         listener_arn            = aws_lb_listener.https.arn
         alb_sg_id               = aws_security_group.alb_sg.id
         health_check = {
-          path                = "/health"
+          path                = "/api/health"
           interval            = 30
           timeout             = 5
           healthy_threshold   = 2
