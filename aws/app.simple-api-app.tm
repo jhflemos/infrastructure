@@ -3,13 +3,13 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
   content {
 
     locals {
-     app_name = "simple-api-app"
+     simple_api_app_name = "simple-api-app"
     }
 
     module "simple-api-app" {
       source = "../../vendor/modules/terraform-modules/applications/simple-api-app"
 
-      app_name = local.app_name
+      app_name = local.simple_api_app_name
 
       environment = global.environment
 
@@ -54,7 +54,7 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
 
       tags = {
         TF_Module = "terraform-modules/applications/simple-api-app"
-        Name      = local.app_name
+        Name      = local.simple_api_app_name
       }
     }
   }

@@ -3,13 +3,13 @@ generate_hcl "_auto_generated_app.simple-http-app.tf" {
   content {
 
     locals {
-     app_name = "simple-http-app"
+      simple_http_app_name = "simple-http-app"
     }
 
     module "simple-http-app" {
       source = "../../vendor/modules/terraform-modules/applications/simple-http-app"
 
-      app_name = local.app_name
+      app_name = local.simple_http_app_name
 
       environment = global.environment
 
@@ -46,7 +46,7 @@ generate_hcl "_auto_generated_app.simple-http-app.tf" {
 
       tags = {
         TF_Module = "terraform-modules/applications/simple-http-app"
-        Name      = local.app_name
+        Name      = local.simple_http_app_name
       }
     }
   }
