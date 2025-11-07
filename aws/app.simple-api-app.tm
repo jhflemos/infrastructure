@@ -25,6 +25,7 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
           matcher             = "200-399"
         }
         listener = {
+          priority  = 200
           condition = [
             {
               path_pattern = {
