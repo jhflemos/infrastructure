@@ -13,7 +13,7 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
 
       environment = global.environment
 
-      api_gateway = true
+      api_gateway = false
 
       alb = {
         listener_arn = aws_lb_listener.https.arn
@@ -27,7 +27,16 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
           unhealthy_threshold = 2
           matcher             = "200-399"
         }
-        listener = {}
+        listener = {
+          priority  = 200
+          condition = [
+            {
+              path_pattern = {
+                values = ["/api/*"]
+              }
+            }
+          ]
+        }
       }
 
       vpc_id = module.vpc.vpc_id
