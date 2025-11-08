@@ -27,16 +27,7 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
           unhealthy_threshold = 2
           matcher             = "200-399"
         }
-        listener = {
-          priority  = 200
-          condition = [
-            {
-              path_pattern = {
-                values = ["/api/*"]
-              }
-            }
-          ]
-        }
+        listener = {}
       }
 
       vpc_id = module.vpc.vpc_id
