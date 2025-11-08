@@ -8,7 +8,7 @@ generate_hcl "_auto_generated_api_gateway.tf" {
     resource "aws_apigatewayv2_integration" "api_integration" {
       api_id           = aws_apigatewayv2_api.api.id
       integration_type = "HTTP_PROXY"
-      integration_uri  = "http://${aws_lb.dns_name}/api"
+      integration_uri  = "http://${aws_lb.app_alb.dns_name}/api"
       integration_method = "ANY"
     }
 

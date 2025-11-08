@@ -36,6 +36,9 @@ generate_hcl "_auto_generated_cloudfront.tf" {
         forwarded_values {
           query_string = true
           headers      = ["*"]
+          cookies {
+            forward = "none"
+          }
         }
       }
 
@@ -48,6 +51,9 @@ generate_hcl "_auto_generated_cloudfront.tf" {
         forwarded_values {
           query_string = true
           headers      = ["*"]
+          cookies {
+            forward = "none"
+          }
         }
       }
 
