@@ -22,22 +22,22 @@ jobs:
       contents: read
       
     steps:
-      - name: Checkout code
+      - name: "setup:checkout-code"
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials
+      - name: "setup:configure-aws-credentials"
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{secrets.AWS_ACCOUNT}}:role/GitHubActionsAWSRole
           aws-region: ${{secrets.AWS_REGION}}
 
-      - name: Set Environment variable
+      - name: "setup:set-environment"
         run: echo "ENVIRONMENT=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
 
-      - name: Setup Terraform
+      - name: "setup:install-terraform"
         uses: hashicorp/setup-terraform@v3
       
-      - name: Install Terramate
+      - name: "setup:install-terramate"
         run: |
           sudo apt-get update && sudo apt-get install -y wget gnupg lsb-release
 
@@ -65,11 +65,11 @@ jobs:
           cd ./aws/vendor/modules/terraform-modules/applications
           terramate generate 
 
-      - name: Terraform Init
+      - name: "build:terraform-init"
         run: |
           terraform -chdir=./aws/env/$ENVIRONMENT init
 
-      - name: Terraform Destroy
+      - name: "build:terraform-destroy"
         run: |
           terraform -chdir=./aws/env/$ENVIRONMENT destroy -auto-approve -no-color > destroy.log 2>&1 || cat destroy.log
 
