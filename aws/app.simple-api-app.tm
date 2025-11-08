@@ -14,8 +14,9 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
       environment = global.environment
 
       alb = {
-        listener_arn            = aws_lb_listener.https.arn
-        alb_sg_id               = aws_security_group.alb_sg.id
+        listener_arn = aws_lb_listener.https.arn
+        alb_dns_name = aws_lb.app_alb.dns_name
+        alb_sg_id    = aws_security_group.alb_sg.id
         health_check = {
           path                = "/api/health"
           interval            = 30
