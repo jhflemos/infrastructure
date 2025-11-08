@@ -43,7 +43,7 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
 
       env_vars = [
        {
-         name = "environment"
+         name  = "environment"
          value = "${global.environment}"
         }
       ]
