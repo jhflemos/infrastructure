@@ -13,8 +13,6 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
 
       environment = global.environment
 
-      api_gateway = true
-
       alb = {
         listener_arn = aws_lb_listener.https.arn
         alb_dns_name = aws_lb.app_alb.dns_name
