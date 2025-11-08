@@ -29,12 +29,7 @@ generate_hcl "_auto_generated_app.simple-http-app.tf" {
           condition = [
             {
               path_pattern = {
-                values = ["/"]
-              }
-            },
-            {
-              path_pattern = {
-                values = ["/greet/*"]
+                values = ["/", "/greet/*"]
               }
             }
           ]
