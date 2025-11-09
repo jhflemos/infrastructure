@@ -5,7 +5,7 @@ generate_hcl "_auto_generated_cloudfront.tf" {
       enabled = true
 
       origin {
-        domain_name = aws_apigatewayv2_api.api.api_endpoint
+        domain_name = replace(replace(aws_apigatewayv2_api.api.api_endpoint, "https://", ""), "/", "")
         origin_id   = "api-gateway-origin"
 
         custom_origin_config {
