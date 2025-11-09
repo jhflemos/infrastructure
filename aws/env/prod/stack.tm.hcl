@@ -7,4 +7,5 @@ stack {
 globals {
   region      = "eu-west-1"
   environment = "prod"
+  route53     = true
 }
