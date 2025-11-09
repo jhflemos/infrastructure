@@ -25,7 +25,7 @@ generate_hcl "_auto_generated_route53.tf" {
     resource "aws_route53_record" "root_alias" {
       count = global.route53 ? 1 : 0
       
-      zone_id = aws_route53_zone.main.zone_id
+      zone_id = aws_route53_zone.main[0].zone_id
       name    = local.domain_name
       type    = "A"
 
@@ -39,7 +39,7 @@ generate_hcl "_auto_generated_route53.tf" {
     resource "aws_route53_record" "www_alias" {
       count = global.route53 ? 1 : 0
       
-      zone_id = aws_route53_zone.main.zone_id
+      zone_id = aws_route53_zone.main[0].zone_id
       name    = "www"
       type    = "A"
 
@@ -54,7 +54,7 @@ generate_hcl "_auto_generated_route53.tf" {
       count = global.route53 ? 1 : 0
       
       for_each = {
-        for dvo in aws_acm_certificate.root.domain_validation_options : dvo.domain_name => {
+        for dvo in aws_acm_certificate.root[0].domain_validation_options : dvo.domain_name => {
           name   = dvo.resource_record_name
           record = dvo.resource_record_value
           type   = dvo.resource_record_type
@@ -66,7 +66,7 @@ generate_hcl "_auto_generated_route53.tf" {
       records = [each.value.record]
       ttl     = 60
       type    = each.value.type
-      zone_id = aws_route53_zone.main.zone_id
+      zone_id = aws_route53_zone.main[0].zone_id
     }
 
     # Wait for certificate validation to complete
@@ -77,8 +77,8 @@ generate_hcl "_auto_generated_route53.tf" {
         create = "5m"
       }
 
-      certificate_arn         = aws_acm_certificate.root.arn
-      validation_record_fqdns = [for record in aws_route53_record.root_validation : record.fqdn]
+      certificate_arn         = aws_acm_certificate.root[0].arn
+      validation_record_fqdns = [for record in aws_route53_record.root_validation[0] : record.fqdn]
     }
 
   }
