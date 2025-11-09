@@ -51,15 +51,13 @@ generate_hcl "_auto_generated_route53.tf" {
     }
 
     resource "aws_route53_record" "root_validation" {
-      count = global.route53 ? 1 : 0
-      
-      for_each = {
+      for_each = global.route53 ? {
         for dvo in aws_acm_certificate.root[0].domain_validation_options : dvo.domain_name => {
           name   = dvo.resource_record_name
           record = dvo.resource_record_value
           type   = dvo.resource_record_type
         }
-      }
+      } : {}
 
       allow_overwrite = true
       name    = each.value.name
