@@ -10,12 +10,6 @@ generate_hcl "_auto_generated_provider.tf" {
         }
       }
     }
-
-    provider "aws" {
-      alias  = "us_east_1"
-      region = "us-east-1"
-    }
-    
     terraform {
       required_version = ">= 1.5.0"
       backend "s3" {
