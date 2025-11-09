@@ -16,7 +16,7 @@ generate_hcl "_auto_generated_load_balance.tf" {
       load_balancer_arn = aws_lb.app_alb.arn
       port              = 443
       protocol          = "HTTPS"
-      certificate_arn   = aws_acm_certificate_validation.apps.certificate_arn
+      certificate_arn   = aws_acm_certificate.alb_cert.arn
 
       default_action {
         type = "fixed-response"
