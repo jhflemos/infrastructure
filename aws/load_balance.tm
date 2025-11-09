@@ -46,7 +46,7 @@ generate_hcl "_auto_generated_load_balance.tf" {
       }
     }
 
-    resource "aws_lb_listener" "https-api" {
+    resource "aws_lb_listener" "https_api" {
       count = global.route53 ? 1 : 0
 
       load_balancer_arn = aws_lb.app_alb_api.arn
