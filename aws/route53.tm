@@ -1,18 +1,18 @@
 generate_hcl "_auto_generated_route53.tf" {
-  condition = tm_anytrue([
-     tm_try(global.route53, false), # only render if `route53` is `true`
-  ])
-
   content {
     locals {
      domain_name = "lemosit.com"
     }
 
     resource "aws_route53_zone" "main" {
+      count = global.route53 ? 1 : 0
+
       name = local.domain_name
     }
 
     resource "aws_acm_certificate" "root" {
+      count = global.route53 ? 1 : 0
+      
       domain_name               = local.domain_name
       subject_alternative_names = ["www.${local.domain_name}"]
       validation_method         = "DNS"
@@ -23,6 +23,8 @@ generate_hcl "_auto_generated_route53.tf" {
     }
 
     resource "aws_route53_record" "root_alias" {
+      count = global.route53 ? 1 : 0
+      
       zone_id = aws_route53_zone.main.zone_id
       name    = local.domain_name
       type    = "A"
@@ -35,6 +37,8 @@ generate_hcl "_auto_generated_route53.tf" {
     }
 
     resource "aws_route53_record" "www_alias" {
+      count = global.route53 ? 1 : 0
+      
       zone_id = aws_route53_zone.main.zone_id
       name    = "www"
       type    = "A"
@@ -47,6 +51,8 @@ generate_hcl "_auto_generated_route53.tf" {
     }
 
     resource "aws_route53_record" "root_validation" {
+      count = global.route53 ? 1 : 0
+      
       for_each = {
         for dvo in aws_acm_certificate.root.domain_validation_options : dvo.domain_name => {
           name   = dvo.resource_record_name
@@ -65,6 +71,8 @@ generate_hcl "_auto_generated_route53.tf" {
 
     # Wait for certificate validation to complete
     resource "aws_acm_certificate_validation" "root" {
+      count = global.route53 ? 1 : 0
+      
       timeouts {
         create = "5m"
       }
@@ -75,4 +83,3 @@ generate_hcl "_auto_generated_route53.tf" {
 
   }
 }
-
