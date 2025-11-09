@@ -49,7 +49,7 @@ generate_hcl "_auto_generated_route53.tf" {
 
     resource "aws_route53_record" "alb_cert_validation" {
       allow_overwrite = true
-      
+
       for_each = {
         for dvo in aws_acm_certificate.alb_cert.domain_validation_options : dvo.domain_name => {
           name   = dvo.resource_record_name
@@ -79,10 +79,6 @@ generate_hcl "_auto_generated_route53.tf" {
     resource "aws_acm_certificate_validation" "alb_cert" {
       certificate_arn         = aws_acm_certificate.alb_cert.arn
       validation_record_fqdns = [for record in aws_route53_record.alb_cert_validation : record.fqdn]
-
-      options {
-        certificate_transparency_logging_preference = "ENABLED"
-      }
     }
 
     resource "aws_route53_record" "app_alias" {
