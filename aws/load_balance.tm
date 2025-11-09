@@ -39,31 +39,22 @@ generate_hcl "_auto_generated_load_balance.tf" {
       port              = 80
       protocol          = "HTTP"
 
-      dynamic "default_action" {
-        for_each = global.route53 ? [1] : []
-        content {
-          type = "redirect"
+      type = global.route53 ? "redirect" : "fixed-response"
 
-          redirect {
-            port        = "443"
-            protocol    = "HTTPS"
-            status_code = "HTTP_301"
-          }
-        }
+      redirect {
+        count       = global.route53 ? 1 : 0
+        port        = "443"
+        protocol    = "HTTPS"
+        status_code = "HTTP_301"
       }
 
-      dynamic "default_action" {
-        for_each = global.route53 ? [] : [1]
-        content {
-          type = "fixed-response"
-
-          fixed_response {
-            content_type = "text/plain"
-            message_body = "No matching path"
-            status_code  = 404
-          }
-        }
+      fixed_response {
+        count        = global.route53 ? 0 : 1
+        content_type = "text/plain"
+        message_body = "No matching path"
+        status_code  = 404
       }
+
       tags = {
         Name = "${global.environment}-lb-listener-http"
       }
