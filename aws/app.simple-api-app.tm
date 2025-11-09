@@ -30,7 +30,7 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
           condition = [
             {
               path_pattern = {
-                values = ["/api/*"]
+                values = ["/api/orders*"]
               }
             }
           ]
