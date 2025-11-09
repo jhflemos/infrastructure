@@ -17,7 +17,7 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
 
       alb = {
         listener_arn = global.route53 ? aws_lb_listener.https_api[0].arn : aws_lb_listener.http_api.arn
-        alb_dns_name = aws_lb.app_alb.dns_name
+        alb_dns_name = aws_lb.app_alb_api.dns_name
         alb_sg_id    = aws_security_group.alb_sg.id
         health_check = {
           path                = "/api/health"
