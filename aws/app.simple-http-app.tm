@@ -13,6 +13,8 @@ generate_hcl "_auto_generated_app.simple-http-app.tf" {
 
       environment = global.environment
 
+      api = false
+
       alb = {
         listener_arn = global.route53 ? aws_lb_listener.https[0].arn : aws_lb_listener.http.arn
         alb_dns_name = aws_lb.app_alb.dns_name
