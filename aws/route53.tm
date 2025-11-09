@@ -30,6 +30,18 @@ generate_hcl "_auto_generated_route53.tf" {
       }
     }
 
+    resource "aws_route53_record" "www_alias" {
+      zone_id = aws_route53_zone.main.zone_id
+      name    = "www"
+      type    = "A"
+
+      alias {
+        name                   = aws_lb.app_alb.dns_name
+        zone_id                = aws_lb.app_alb.zone_id
+        evaluate_target_health = true
+      }
+    }
+
     resource "aws_route53_record" "root_validation" {
       for_each = {
         for dvo in aws_acm_certificate.root.domain_validation_options : dvo.domain_name => {
