@@ -9,6 +9,8 @@ generate_hcl "_auto_generated_route53.tf" {
     }
 
     resource "aws_acm_certificate" "apps" {
+      provider = aws.us_east_1
+
       domain_name = "app.${local.domain_name}"
       subject_alternative_names = ["*.app.${local.domain_name}"]
       validation_method = "DNS"
@@ -36,11 +38,14 @@ generate_hcl "_auto_generated_route53.tf" {
     }
 
     resource "aws_acm_certificate_validation" "apps" {
+      provider = aws.us_east_1
+      
+      certificate_arn         = aws_acm_certificate.apps.arn
+      validation_record_fqdns = [for record in aws_route53_record.apps_validation : record.fqdn]
+
       timeouts {
         create = "5m"
       }
-      certificate_arn         = aws_acm_certificate.apps.arn
-      validation_record_fqdns = [for record in aws_route53_record.apps_validation : record.fqdn]
     }
 
     resource "aws_route53_record" "app_alias" {
