@@ -39,8 +39,6 @@ generate_hcl "_auto_generated_load_balance.tf" {
       port              = 80
       protocol          = "HTTP"
 
-     #mudar aqui para redirecionar para applicacao caso nao tenha route53
-
       dynamic "default_action" {
         for_each = global.route53 ? [1] : []
         content {
