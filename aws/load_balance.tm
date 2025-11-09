@@ -13,10 +13,12 @@ generate_hcl "_auto_generated_load_balance.tf" {
     }
 
     resource "aws_lb_listener" "https" {
+      count = global.route53 ? 1 : 0
+
       load_balancer_arn = aws_lb.app_alb.arn
       port              = 443
       protocol          = "HTTPS"
-      certificate_arn   = global.route53 ? aws_acm_certificate_validation.root[0].certificate_arn : null
+      certificate_arn   = aws_acm_certificate_validation.root[0].certificate_arn
 
       default_action {
         type = "fixed-response"
@@ -37,16 +39,33 @@ generate_hcl "_auto_generated_load_balance.tf" {
       port              = 80
       protocol          = "HTTP"
 
-      default_action {
-        type = "redirect"
+     #mudar aqui para redirecionar para applicacao caso nao tenha route53
 
-        redirect {
-          port        = "443"
-          protocol    = "HTTPS"
-          status_code = "HTTP_301"
+      dynamic "default_action" {
+        for_each = global.route53 ? [1] : []
+        content {
+          type = "redirect"
+
+          redirect {
+            port        = "443"
+            protocol    = "HTTPS"
+            status_code = "HTTP_301"
+          }
         }
       }
 
+      dynamic "default_action" {
+        for_each = global.route53 ? [] : [1]
+        content {
+          type = "fixed-response"
+
+          fixed_response {
+            content_type = "text/plain"
+            message_body = "No matching path"
+            status_code  = 404
+          }
+        }
+      }
       tags = {
         Name = "${global.environment}-lb-listener-http"
       }
