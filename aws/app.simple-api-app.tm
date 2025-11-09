@@ -20,7 +20,7 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
         alb_dns_name = aws_lb.app_alb_api.dns_name
         alb_sg_id    = aws_security_group.alb_sg.id
         health_check = {
-          path                = "/api/health"
+          path                = "/health"
           interval            = 30
           timeout             = 5
           healthy_threshold   = 2
