@@ -46,28 +46,6 @@ generate_hcl "_auto_generated_load_balance.tf" {
       }
     }
 
-    resource "aws_lb_listener" "https_api" {
-      count = global.route53 ? 1 : 0
-
-      load_balancer_arn = aws_lb.app_alb_api.arn
-      port              = 443
-      protocol          = "HTTPS"
-      certificate_arn   = aws_acm_certificate_validation.root[0].certificate_arn
-
-      default_action {
-        type = "fixed-response"
-        fixed_response {
-          content_type = "text/plain"
-          message_body = "No matching path"
-          status_code = 404
-        }
-      }
-
-      tags = {
-        Name = "${global.environment}-lb-listener-https-api"
-      }
-    }
-
     resource "aws_lb_listener" "http" {
       load_balancer_arn = aws_lb.app_alb.arn
       port              = 80
@@ -97,33 +75,6 @@ generate_hcl "_auto_generated_load_balance.tf" {
       }
     }
 
-    resource "aws_lb_listener" "http_api" {
-      load_balancer_arn = aws_lb.app_alb_api.arn
-      port              = 80
-      protocol          = "TCP"
-
-      dynamic "default_action" {
-        for_each = [1]
-        content {
-          type = global.route53 ? "redirect" : "fixed-response"
-
-          redirect {
-            port        = "443"
-            protocol    = "HTTPS"
-            status_code = "HTTP_301"
-          }
-
-          fixed_response {
-            content_type = "text/plain"
-            message_body = "No matching path"
-            status_code  = 404
-          }
-        }
-      }
-      
-      tags = {
-        Name = "${global.environment}-lb-listener-http-api"
-      }
-    }
+    
   }
 }
