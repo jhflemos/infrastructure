@@ -43,25 +43,6 @@ generate_hcl "_auto_generated_load_balance.tf" {
       }
     }
 
-    resource "aws_lb_listener" "http_api" {
-      load_balancer_arn = aws_lb.app_alb_api.arn
-      port              = 80
-      protocol          = "HTTP"
-
-      default_action {
-        type = "fixed-response"
-        fixed_response {
-          content_type = "text/plain"
-          message_body = "No matching path"
-          status_code = 404
-        }
-      }
-
-      tags = {
-        Name = "${global.environment}-lb-listener-http-api"
-      }
-    }
-
     resource "aws_lb" "app_nlb_api" {
       name               = "${global.environment}-app-nlb-api"
       internal           = true
