@@ -38,10 +38,11 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
       }
 
       api = {
-        paths = [
-         "orders",
-         "orders/{id}"
+        parent_path = "orders",
+        child_paths = [
+          "{id}"
         ]
+         
       }
 
       vpc_id = module.vpc.vpc_id
