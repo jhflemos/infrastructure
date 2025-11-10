@@ -19,7 +19,6 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
         alb_arn          = aws_lb.app_alb_api.arn
         alb_dns_name     = aws_lb.app_alb_api.dns_name
         alb_sg_id        = aws_security_group.alb_sg.id
-        route53_cert_arn = global.route53 ? aws_acm_certificate_validation.root[0].certificate_arn : null
         health_check = {
           path                = "/health"
           interval            = 30
