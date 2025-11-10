@@ -81,7 +81,10 @@ generate_hcl "_auto_generated_load_balance.tf" {
       target_type = "ip"
 
       health_check {
-       protocol = "TCP"
+       protocol            = "TCP"
+       interval            = 30
+       healthy_threshold   = 2
+       unhealthy_threshold = 2
      }
     }
 
