@@ -16,6 +16,7 @@ generate_hcl "_auto_generated_app.simple-http-app.tf" {
       api = false
 
       elb = {
+        listener_arn = aws_lb_listener.http.arn
         alb_arn      = aws_lb.app_alb.arn
         alb_sg_id    = aws_security_group.alb_sg.id
         health_check = {

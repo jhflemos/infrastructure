@@ -39,7 +39,7 @@ generate_hcl "_auto_generated_load_balance.tf" {
       }
 
       tags = {
-        Name = "${var.environment}-lb-listener-http"
+        Name = "${global.environment}-lb-listener-http"
       }
     }
 
@@ -58,7 +58,7 @@ generate_hcl "_auto_generated_load_balance.tf" {
       }
 
       tags = {
-        Name = "${var.environment}-lb-listener-http-api"
+        Name = "${global.environment}-lb-listener-http-api"
       }
     }
 
