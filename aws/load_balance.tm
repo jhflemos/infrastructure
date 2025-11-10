@@ -79,13 +79,6 @@ generate_hcl "_auto_generated_load_balance.tf" {
       protocol    = "TCP"
       vpc_id      = module.vpc.vpc_id
       target_type = "ip"
-
-      health_check {
-       protocol            = "TCP"
-       interval            = 30
-       healthy_threshold   = 2
-       unhealthy_threshold = 2
-     }
     }
 
     resource "aws_lb_listener" "nlb_listener" {
