@@ -78,7 +78,7 @@ generate_hcl "_auto_generated_load_balance.tf" {
       port        = 80
       protocol    = "TCP"
       vpc_id      = module.vpc.vpc_id
-      target_type = "ip"
+      target_type = "alb"
     }
 
     resource "aws_lb_listener" "nlb_listener" {
