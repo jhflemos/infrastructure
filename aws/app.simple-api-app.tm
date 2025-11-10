@@ -13,8 +13,6 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
 
       environment = global.environment
 
-      api = true
-
       elb = {
         nlb_arn      = aws_lb.app_nlb_api.arn
         alb_arn      = aws_lb.app_alb_api.arn
