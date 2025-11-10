@@ -15,7 +15,7 @@ generate_hcl "_auto_generated_load_balance.tf" {
     resource "aws_lb" "app_alb_api" {
       name               = "${global.environment}-app-alb-api"
       internal           = false
-      load_balancer_type = "application"
+      load_balancer_type = "network"
       security_groups    = [aws_security_group.alb_sg.id]
       subnets            = module.vpc.private_subnets
 
