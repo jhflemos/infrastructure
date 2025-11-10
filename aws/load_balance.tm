@@ -100,7 +100,7 @@ generate_hcl "_auto_generated_load_balance.tf" {
     resource "aws_lb_listener" "http_api" {
       load_balancer_arn = aws_lb.app_alb_api.arn
       port              = 80
-      protocol          = "HTTP"
+      protocol          = "TCP"
 
       dynamic "default_action" {
         for_each = [1]
