@@ -16,7 +16,7 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
       api = true
 
       elb = {
-        alb_arn      = aws_lb.app_alb_api.arn
+        alb_arn      = aws_lb.app_nlb_api.arn
         alb_sg_id    = aws_security_group.alb_sg.id
         health_check = {
           path                = "/health"
