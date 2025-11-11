@@ -42,7 +42,6 @@ generate_hcl "_auto_generated_app.simple-api-app.tf" {
         child_paths = [
           "{id}"
         ]
-         
       }
 
       vpc_id = module.vpc.vpc_id

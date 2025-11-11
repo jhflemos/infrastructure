@@ -1,3 +1,3 @@
 terraform-modules:
   source: "https://github.com/jhflemos/terraform-modules.git"
-  version: "adding-api-gateway"
+  version: "v1.0.1"
